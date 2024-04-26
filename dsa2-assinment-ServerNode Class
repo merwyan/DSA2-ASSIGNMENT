@@ -1,0 +1,37 @@
+import java.util.ArrayList;
+import java.util.List;
+
+public class ServerNode {
+    private List<ClientNode> clients;
+
+    public ServerNode() {
+        this.clients = new ArrayList<>();
+    }
+
+    public void registerClient(ClientNode client) {
+        clients.add(client);
+    }
+
+    public void brokerMessage(ClientNode sender, ClientNode receiver, String message) {
+        if (clients.contains(sender) && clients.contains(receiver)) {
+            receiver.receiveMessage(sender.getName(), message);
+        } else {
+            System.out.println("Error: Sender or receiver not registered with the server.");
+        }
+    }
+
+    // Main method for demonstration within ServerNode class
+
+    public static void main(String[] args) {
+        ServerNode server = new ServerNode();
+
+        ClientNode client1 = new ClientNode("Alice");
+        ClientNode client2 = new ClientNode("Bob");
+
+        server.registerClient(client1);
+        server.registerClient(client2);
+
+        System.out.println("Sending message from Alice to Bob...");
+        server.brokerMessage(client1, client2, "Hello Bob!");
+    }
+}
