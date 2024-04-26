@@ -1,0 +1,15 @@
+public class ClientNode {
+    private String name;
+    public ClientNode(String name) {
+        this.name = name;
+    }
+    public void send(ServerNode server, ClientNode receiver, String message) {
+        server.brokerMessage(this, receiver, message);
+    }
+    public void receiveMessage(String senderName, String message) {
+        System.out.println("Message from " + senderName + ": " + message);
+    }
+    public String getName() {
+        return name;
+    }
+}
