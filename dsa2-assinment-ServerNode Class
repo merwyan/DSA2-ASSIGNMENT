@@ -25,13 +25,13 @@ public class ServerNode {
     public static void main(String[] args) {
         ServerNode server = new ServerNode();
 
-        ClientNode client1 = new ClientNode("Alice");
-        ClientNode client2 = new ClientNode("Bob");
+        ClientNode client1 = new ClientNode("user1");
+        ClientNode client2 = new ClientNode("user2");
 
         server.registerClient(client1);
         server.registerClient(client2);
 
-        System.out.println("Sending message from Alice to Bob...");
-        server.brokerMessage(client1, client2, "Hello Bob!");
+        System.out.println("Sending message from user1 to user2...");
+        server.brokerMessage(client1, client2, "Hello user2!");
     }
 }
