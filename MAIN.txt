@@ -1,0 +1,75 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Main {
+    private static Map<String, Map<String, String>> messages = new HashMap<>();
+
+    public static void main(String[] args) {
+        Star network = new Star();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("Enter command (send, insert, delete, view, or exit):");
+            String command = scanner.nextLine();
+
+            switch (command) {
+                case "send":
+                    System.out.print("Enter sender name: ");
+                    String senderName = scanner.nextLine();
+                    System.out.print("Enter receiver name: ");
+                    String receiverName = scanner.nextLine();
+                    System.out.print("Enter message: ");
+                    String message = scanner.nextLine();
+                    network.sendMessage(senderName, receiverName, message);
+                    storeMessage(senderName, receiverName, message);
+                    break;
+                case "insert":
+                    System.out.print("Enter client name: ");
+                    String clientName = scanner.nextLine();
+                    network.insertNode(clientName);
+                    break;
+                case "delete":
+                    System.out.print("Enter client name: ");
+                    String deleteClientName = scanner.nextLine();
+                    network.deleteNode(deleteClientName);
+                    break;
+                case "view":
+                    viewMessages();
+                    break;
+                case "exit":
+                    System.out.println("Exiting program...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid command.");
+            }
+        }
+    }
+
+    private static void storeMessage(String senderName, String receiverName, String message) {
+        Map<String, String> senderMessages = messages.getOrDefault(senderName, new HashMap<>());
+        senderMessages.put(receiverName, message);
+        messages.put(senderName, senderMessages);
+    }
+
+    private static void viewMessages() {
+        if (messages.isEmpty()) {
+            System.out.println("No messages sent yet.");
+            return;
+        }
+
+        for (Map.Entry<String, Map<String, String>> entry : messages.entrySet()) {
+            String senderName = entry.getKey();
+            Map<String, String> senderMessages = entry.getValue();
+
+            System.out.println("Messages sent by " + senderName + ":");
+            for (Map.Entry<String, String> messageEntry : senderMessages.entrySet()) {
+                String receiverName = messageEntry.getKey();
+                String message = messageEntry.getValue();
+                System.out.println("To " + receiverName + ": " + message);
+            }
+            System.out.println();
+        }
+    }
+}
