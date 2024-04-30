@@ -12,26 +12,15 @@ public class ServerNode {
         clients.add(client);
     }
 
+    public void removeClient(ClientNode client) {
+        clients.remove(client);
+    }
+
     public void brokerMessage(ClientNode sender, ClientNode receiver, String message) {
         if (clients.contains(sender) && clients.contains(receiver)) {
             receiver.receiveMessage(sender.getName(), message);
         } else {
             System.out.println("Error: Sender or receiver not registered with the server.");
         }
-    }
-
-    // Main method for demonstration within ServerNode class
-
-    public static void main(String[] args) {
-        ServerNode server = new ServerNode();
-
-        ClientNode client1 = new ClientNode("user1");
-        ClientNode client2 = new ClientNode("user2");
-
-        server.registerClient(client1);
-        server.registerClient(client2);
-
-        System.out.println("Sending message from user1 to user2...");
-        server.brokerMessage(client1, client2, "Hello user2!");
     }
 }
